@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+     <script>
+
+        $(function() {
+        var start_year = new Date().getFullYear();
+        var last_year = start_year + 20;
+        for (var i = start_year; i < last_year; i++) {
+            $('select#year').append('<option value="' + i + '" id="myyear">' + i + '</option>');
+        }
+        });
+
+        $(document).ready(function () {
+
+            $('#submit').click(function() {
+
+                let mymonth = $( "select#Yourmonth option:checked" ).val();
+                // console.log(mymonth);
+                let myyear = $( "select#year option:checked" ).val();
+                // console.log(myyear);
+                // console.log(days(mymonth,myyear));
+                
+                var mydays = days(mymonth,myyear);
+                let mywork = $('#mywork').val();
+                let myworkstr = String(mywork);
+                var myshift = new Array();
+                myshift = myworkstr.split("	",mydays);
+                console.log(myshift);
+                // console.log(mydays);
+
+
+
+                if (mydays == myshift.length) {
+
+                        let AStr = "07:00:00";
+                        let AEnd = "15:30:00";
+
+                        let fourAStr = "07:00:00";
+                        let fourAEnd = "15:30:00";
+
+                        let CStr = "23:00:00";
+                        let CEnd = "07:30:00";
+
+                        let BStr = "15:00:00";
+                        let BEnd = "23:30:00";
+
+                        let fourBStr = "15:00:00";
+                        let fourBEnd = "23:30:00";
+
+                        let fiveBStr = "14:30:00";
+                        let fiveBEnd = "23:00:00";
+
+                        let DStr = "09:30:00";
+                        let DEnd = "18:00:00";
+                        
+                        let fiveStr = "10:30:00";
+                        let fiveEnd = "19:00:00";
+                        
+                        let ZStr = "12:00:00";
+                        let ZEnd = "20:30:00";
+
+                        let NStr = "17:30:00";
+                        let NEnd = "02:00:00";
+
+                        let foursaStr = "05:30:00";
+                        let foursaEnd = "14:00:00";
+
+                        let rest = 0;
+
+                        let startTime = "";
+                        let endTime = "";
+
+                    
+                    for (let i = 0; i < myshift.length; i++) {
+
+                        let day = i + 1;
+                        let nextDay = day + 1;
+
+                        let startDate = `${myyear}/${mymonth}/${day}`;
+                        let endDate = "";
+                        if(myshift[i] == "N" || myshift[i] == "C" ) {
+                            endDate = `${myyear}/${mymonth}/${nextDay}`;
+                        }else{
+                            endDate = `${myyear}/${mymonth}/${day}`;
+                        }
+
+                        if(myshift[i] == "A") {
+                            startTime = AStr;
+                            endTime = AEnd;
+                        }else if (myshift[i] == "4A"){
+                            startTime = fourAStr;
+                            endTime = fourAEnd;
+                        }else if (myshift[i] == "C") {
+                            startTime = CStr;
+                            endTime = CEnd;
+                        }else if (myshift[i] == "B") {
+                            startTime = BStr;
+                            endTime = BEnd;
+                        }else if (myshift[i] == "4B") {
+                            startTime = fourBStr;
+                            endTime = fourBEnd;
+                        }else if (myshift[i] == "5B") {
+                            startTime = fiveBStr;
+                            endTime = fiveBEnd;
+                        }else if (myshift[i] == "D") {
+                            startTime = DStr;
+                            endTime = DEnd;
+                        }else if (myshift[i] == "5") {
+                            startTime = fiveStr;
+                            endTime = fiveEnd;
+                        }else if (myshift[i] == "Z") {
+                            startTime = ZStr;
+                            endTime = ZEnd;
+                        }else if (myshift[i] == "N") {
+                            startTime = NStr;
+                            endTime = NEnd;
+                        }
+                        else if(myshift[i] == "4a") {
+                            startTime = foursaStr;
+                            endTime = foursaEnd;
+                        }else if (myshift[i] == '0' || myshift[i] ==  "例" ||  myshift[i] == "休" ) {
+                            startTime = rest;
+                            endTime = rest;
+                        }else{
+                            alert("存在未定義的班別!").once;
+                        }
+
+
+                        let event = "";
+                        if(myshift[i] == '0' || myshift[i] ==  "例" ||  myshift[i] == "休" ) {
+                            event = "TRUE";
+                        }else{
+                            event = "FALSE";
+                        } 
+
+                        $('table#table').append(`<tr><td> ${myshift[i]} </td><td>${startDate}</td><td>${endDate}</td><td>${startTime}</td><td>${endTime}</td><td>${event}</td><td></td><td>日勝生加賀屋</td></tr>`);
+
+                    }
+
+
+                    var html = document.querySelector("table").outerHTML;
+                    export_table_to_csv(html, `${myyear}年${mymonth}月班表.csv`);
+
+                }else{
+                    alert("班表內容錯誤");
+                }
+                
+
+            });
+
+        });
+        var days = function(month,year) {
+            return new Date(year, month, 0).getDate();
+            };
+            // console.log(days(12, 2020)); // 月份
+
+
+                function download_csv(csv, filename) {
+        var csvFile;
+        var downloadLink;
+
+        // CSV FILE
+        csvFile = new Blob([csv], {type: "text/csv"});
+
+        // Download link
+        downloadLink = document.createElement("a");
+
+        // File name
+        downloadLink.download = filename;
+
+        // We have to create a link to the file
+        downloadLink.href = window.URL.createObjectURL(csvFile);
+
+        // Make sure that the link is not displayed
+        downloadLink.style.display = "none";
+
+        // Add the link to your DOM
+        document.body.appendChild(downloadLink);
+
+        // Lanzamos
+        downloadLink.click();
+    }
+
+    function export_table_to_csv(html, filename) {
+        var csv = [];
+        var rows = document.querySelectorAll("table tr");
+        for (var i = 0; i < rows.length; i++) {
+            var row = [], cols = rows[i].querySelectorAll("td, th");
+            
+            for (var j = 0; j < cols.length; j++) 
+                row.push(cols[j].innerText);
+            
+            csv.push(row.join(","));		
+        }
+
+        // Download CSV
+        download_csv(csv.join("\n"), filename);
+    }
+
+        </script>
+
+        <style>
+            table, tr, td {
+               border: 1px solid black;
+            }
+        </style>
+</head>
+<body>
+    請選擇要建立的班表月份
+    <select name="YourMonth" id="Yourmonth">
+    　<option value="1">1月</option>
+    　<option value="2">2月</option>
+    　<option value="3">3月</option>
+    　<option value="4">4月</option>
+    　<option value="5">5月</option>
+    　<option value="6">6月</option>
+    　<option value="7">7月</option>
+    　<option value="8">8月</option>
+    　<option value="9">9月</option>
+    　<option value="10">10月</option>
+    　<option value="11">11月</option>
+    　<option value="12">12月</option>
+    </select>        
+    <br>
+    請選擇年份
+    <select name="year" id="year"></select>
+    <br>
+    複製班表到這
+    <input type="text" id="mywork">
+    <br>
+    <button id="submit">送出</button>
+
+<div id="dvData">
+    <table id="table">
+        <th>Subject</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Start Time</th>
+        <th>End Time</th>
+        <th>All Day Event</th>
+        <th>Description</th>
+        <th>Location</th>
+    </table>
+</div>
+</body>
+</html>
