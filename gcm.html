@@ -17,7 +17,72 @@
 
         $(document).ready(function () {
 
+            var x = 30; //minutes interval
+            var times = []; // time array
+            var tt = 0; // start time
+
+            //loop to increment the time and push results in array
+            for (var i=0;tt<24*60; i++) {
+            var hh = Math.floor(tt/60); // getting hours of day in 0-24 format
+            var mm = (tt%60); // getting minutes of the hour in 0-55 format
+            times[i] = ("0" + (hh % 24)).slice(-2) + ':' + ("0" + mm).slice(-2) + ':' + '00'; // pushing data in array in [00:00 - 12:00 AM/PM format]
+            tt = tt + x;
+            }
+
+            for (var i = 0; i <= times.length -1; i++) {
+                let slicetime = times[i].slice(0, 5) + times[i].slice(8);
+                $('select[name=time]').append('<option value="' + times[i] + '">' + slicetime + '</option>');
+            }
+
+            $('select#timeas option[value="07:00:00"]').attr("selected",true);
+
+            $('select#timeae option[value="15:30:00"]').attr("selected",true);
+
+            $('select#timebs option[value="15:00:00"]').attr("selected",true);
+
+            $('select#timebe option[value="23:30:00"]').attr("selected",true);
+
+            $('select#timeds option[value="09:30:00"]').attr("selected",true);
+
+            $('select#timede option[value="18:00:00"]').attr("selected",true);
+
+            $('select#timens option[value="17:30:00"]').attr("selected",true);
+
+            $('select#timene option[value="02:00:00"]').attr("selected",true);
+
+            $('select#time4as option[value="07:00:00"]').attr("selected",true);
+
+            $('select#time4ae option[value="15:30:00"]').attr("selected",true);
+
+            $('select#time4bs option[value="15:00:00"]').attr("selected",true);
+
+            $('select#time4be option[value="23:30:00"]').attr("selected",true);
+
+            $('select#time5s option[value="10:30:00"]').attr("selected",true);
+
+            $('select#time5e option[value="19:00:00"]').attr("selected",true);
+
+            $('select#time4ass option[value="05:30:00"]').attr("selected",true);
+
+            $('select#time4ase option[value="14:00:00"]').attr("selected",true);
+
+            $('select#timecs option[value="23:00:00"]').attr("selected",true);
+
+            $('select#timece option[value="07:30:00"]').attr("selected",true);
+
+            $('select#time5bs option[value="14:30:00"]').attr("selected",true);
+
+            $('select#time5be option[value="23:00:00"]').attr("selected",true);
+
+            $('select#timezs option[value="12:00:00"]').attr("selected",true);
+
+            $('select#timeze option[value="20:30:00"]').attr("selected",true);
+
             $('#submit').click(function() {
+
+                if($('table tr').length > 1) {
+                    $('table tr.new').remove();
+                };
 
                 let mymonth = $( "select#Yourmonth option:checked" ).val();
                 // console.log(mymonth);
@@ -30,45 +95,59 @@
                 let myworkstr = String(mywork);
                 var myshift = new Array();
                 myshift = myworkstr.split("	",mydays);
-                console.log(myshift);
+                // console.log(myshift);
                 // console.log(mydays);
 
 
 
                 if (mydays == myshift.length) {
 
-                        let AStr = "07:00:00";
-                        let AEnd = "15:30:00";
+                        let AStr = $( "select#timeas option:checked" ).val();
+                        // console.log(AStr);
+                        let AEnd = $( "select#timeae option:checked" ).val();
 
-                        let fourAStr = "07:00:00";
-                        let fourAEnd = "15:30:00";
+                        let fourAStr = $( "select#time4as option:checked" ).val();
+                        let fourAEnd = $( "select#time4ae option:checked" ).val();
 
-                        let CStr = "23:00:00";
-                        let CEnd = "07:30:00";
+                        let CStr = $( "select#timecs option:checked" ).val();
+                        let CEnd = $( "select#timece option:checked" ).val();
 
-                        let BStr = "15:00:00";
-                        let BEnd = "23:30:00";
+                        let BStr = $( "select#timebs option:checked" ).val();
+                        let BEnd = $( "select#timebe option:checked" ).val();
 
-                        let fourBStr = "15:00:00";
-                        let fourBEnd = "23:30:00";
+                        let fourBStr = $( "select#time4bs option:checked" ).val();
+                        let fourBEnd = $( "select#time4be option:checked" ).val();
 
-                        let fiveBStr = "14:30:00";
-                        let fiveBEnd = "23:00:00";
+                        let fiveBStr = $( "select#time5bs option:checked" ).val();
+                        let fiveBEnd = $( "select#time5be option:checked" ).val();
 
-                        let DStr = "09:30:00";
-                        let DEnd = "18:00:00";
+                        let DStr = $( "select#timeds option:checked" ).val();
+                        let DEnd = $( "select#timede option:checked" ).val();
                         
-                        let fiveStr = "10:30:00";
-                        let fiveEnd = "19:00:00";
+                        let fiveStr = $( "select#time5s option:checked" ).val();
+                        let fiveEnd = $( "select#time5e option:checked" ).val();
                         
-                        let ZStr = "12:00:00";
-                        let ZEnd = "20:30:00";
+                        let ZStr = $( "select#timezs option:checked" ).val();
+                        let ZEnd = $( "select#timeze option:checked" ).val();
 
-                        let NStr = "17:30:00";
-                        let NEnd = "02:00:00";
+                        let NStr = $( "select#timens option:checked" ).val();
+                        let NEnd = $( "select#timene option:checked" ).val();
 
-                        let foursaStr = "05:30:00";
-                        let foursaEnd = "14:00:00";
+                        let foursaStr = $( "select#time4ass option:checked" ).val();
+                        let foursaEnd = $( "select#time4ase option:checked" ).val();
+
+                        let timec1s = $( "select#timec1s option:checked" ).val();
+                        let timec1e = $( "select#timec1e option:checked" ).val();
+
+                        let timec2s = $( "select#timec2s option:checked" ).val();
+                        let timec2e = $( "select#timec2e option:checked" ).val();
+
+                        let cus1 = $('#cus1').val();
+                        // console.log(cus1);
+
+                        let cus2 = $('#cus2').val();
+
+                        let cusr = $('#cusr').val();
 
                         let rest = 0;
 
@@ -77,17 +156,6 @@
 
                     
                     for (let i = 0; i < myshift.length; i++) {
-
-                        let day = i + 1;
-                        let nextDay = day + 1;
-
-                        let startDate = `${myyear}/${mymonth}/${day}`;
-                        let endDate = "";
-                        if(myshift[i] == "N" || myshift[i] == "C" ) {
-                            endDate = `${myyear}/${mymonth}/${nextDay}`;
-                        }else{
-                            endDate = `${myyear}/${mymonth}/${day}`;
-                        }
 
                         if(myshift[i] == "A") {
                             startTime = AStr;
@@ -123,31 +191,52 @@
                         else if(myshift[i] == "4a") {
                             startTime = foursaStr;
                             endTime = foursaEnd;
-                        }else if (myshift[i] == '0' || myshift[i] ==  "例" ||  myshift[i] == "休" ) {
+                        }else if (myshift[i] == '0' || myshift[i] ==  "例" ||  myshift[i] == "休" ||  myshift[i] ==  cusr ) {
                             startTime = rest;
                             endTime = rest;
+                        }else if (myshift[i] == cus1) {
+                            startTime = timec1s;
+                            endTime = timec1e;
+                        }else if (myshift[i] == cus2) {
+                            startTime = timec2s;
+                            endTime = timec2e;
                         }else{
                             alert("存在未定義的班別!").once;
                         }
 
+                        let day = i + 1;
+                        let nextDay = day + 1;
+
+                        let startDate = `${myyear}/${mymonth}/${day}`;
+                        let endDate = "";
+                        if(myshift[i] == 'N' || myshift[i] ==  "C") {
+                            endDate = `${myyear}/${mymonth}/${nextDay}`;
+                        }else if(myshift[i] == cus1 && timec1s > timec1e) {
+                            endDate = `${myyear}/${mymonth}/${nextDay}`;
+                        }else if (myshift[i] == cus2 && timec2s > timec2e){
+                            endDate = `${myyear}/${mymonth}/${nextDay}`;
+                        }else{
+                            endDate = `${myyear}/${mymonth}/${day}`;
+                        }
 
                         let event = "";
-                        if(myshift[i] == '0' || myshift[i] ==  "例" ||  myshift[i] == "休" ) {
+                        if(myshift[i] == '0' || myshift[i] ==  "例" ||  myshift[i] == "休" ||  myshift[i] == cusr ) {
                             event = "TRUE";
                         }else{
                             event = "FALSE";
                         } 
 
-                        $('table#table').append(`<tr><td> ${myshift[i]} </td><td>${startDate}</td><td>${endDate}</td><td>${startTime}</td><td>${endTime}</td><td>${event}</td><td></td><td>日勝生加賀屋</td></tr>`);
+                        $('table#table').append(`<tr class="new"><td> ${myshift[i]} </td><td>${startDate}</td><td>${endDate}</td><td>${startTime}</td><td>${endTime}</td><td>${event}</td><td></td><td>日勝生加賀屋</td></tr>`);
 
                     }
 
+                    msg();
 
                     var html = document.querySelector("table").outerHTML;
                     export_table_to_csv(html, `${myyear}年${mymonth}月班表.csv`);
 
                 }else{
-                    alert("班表內容錯誤");
+                    alert("班表內容錯誤 ! \n 有可能是選錯月份或空格有誤 ! \n 請直接從EXCEL班表複製 !");
                 }
                 
 
@@ -184,6 +273,9 @@
 
         // Lanzamos
         downloadLink.click();
+
+        toGoogle();
+
     }
 
     function export_table_to_csv(html, filename) {
@@ -202,6 +294,14 @@
         download_csv(csv.join("\n"), filename);
     }
 
+    function msg () {
+        alert("建立完成 ! 請把檔案上傳到Google月曆哦")
+    }
+
+    function toGoogle() {
+        window.open('https://calendar.google.com/calendar/u/0/r/settings/export', '_blank');
+    }
+
         </script>
 
         <style>
@@ -211,6 +311,7 @@
         </style>
 </head>
 <body>
+    <h1>加加屋櫃台班表Google月曆產生器</h1>
     請選擇要建立的班表月份
     <select name="YourMonth" id="Yourmonth">
     　<option value="1">1月</option>
@@ -230,9 +331,58 @@
     請選擇年份
     <select name="year" id="year"></select>
     <br>
-    複製班表到這
+    複製Excel班表到這
     <input type="text" id="mywork">
     <br>
+    我的班別時間:
+    <br>
+    A:
+    上班時間<select name="time" id="timeas"></select> | 下班時間 <select name="time" id="timeae"></select>
+    <br>
+    B:
+    上班時間<select name="time" id="timebs"></select> | 下班時間 <select name="time" id="timebe"></select>
+    <br>
+    D:
+    上班時間<select name="time" id="timeds"></select> | 下班時間 <select name="time" id="timede"></select>
+    <br>
+    N:
+    上班時間<select name="time" id="timens"></select> | 下班時間 <select name="time" id="timene"></select>
+    <br>
+    4A:
+    上班時間<select name="time" id="time4as"></select> | 下班時間 <select name="time" id="time4ae"></select>
+    <br>
+    4B:
+    上班時間<select name="time" id="time4bs"></select> | 下班時間 <select name="time" id="time4be"></select>
+    <br>
+    5:
+    上班時間<select name="time" id="time5s"></select> | 下班時間 <select name="time" id="time5e"></select>
+    <br>
+    4a:
+    上班時間<select name="time" id="time4ass"></select> | 下班時間 <select name="time" id="time4ase"></select>
+    <br>
+    C:
+    上班時間<select name="time" id="timecs"></select> | 下班時間 <select name="time" id="timece"></select>
+    <br>
+    5B:
+    上班時間<select name="time" id="time5bs"></select> | 下班時間 <select name="time" id="time5be"></select>
+    <br>
+    Z:
+    上班時間<select name="time" id="timezs"></select> | 下班時間 <select name="time" id="timeze"></select>
+    <br>
+    自定義班別1:
+    <input type="text" id="cus1">
+    上班時間<select name="time" id="timec1s"></select> | 下班時間 <select name="time" id="timec1e"></select>
+    <br>
+    自定義班別2:
+    <input type="text" id="cus2">
+    上班時間<select name="time" id="timec2s"></select> | 下班時間 <select name="time" id="timec2e"></select>
+    <br>
+    自定義休假:
+    <input type="text" id="cusr">
+    <br>
+    休假:0 例 休
+    <br>
+    
     <button id="submit">送出</button>
 
 <div id="dvData">
